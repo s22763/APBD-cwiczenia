@@ -29,9 +29,9 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetStudent(string id)
+        public IActionResult GetStudent(int i)
         {
-            Student st = _dbService.GetStudent (id);
+            Student st = _dbService.GetStudent(i);
             if (st != null) return Ok (st);
             //{
             //    return Ok("Kowalski");
@@ -49,7 +49,7 @@ namespace WebApplication.Controllers
                 student.IndexNumber = $"s{new Random().Next(1, 20000)}";
                 return Ok(_dbService.AddStudent(student));
             }
-           // return Ok(student);
+            else return NotFound("Nie znaleziono studenta");
         }
 
         [HttpPut]
@@ -62,10 +62,22 @@ namespace WebApplication.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteStudent(string id)
+        public IActionResult DeleteStudent(int i)
         {
-                _dbService.DeleteStudent(id);
+                _dbService.DeleteStudent(i);
                 return Ok("Delete complete");
         }
+
+        [HttpDelete]
+        public IActionResult DeleteStudent([FromBody] Student student)
+        {
+            if (student != null)
+            {
+                _dbService.DeleteStudent(student);
+                return Ok("Student zostal usuniety");
+            }
+            else return NotFound("Nie znaleziono studenta");
+        }
+
     }
 }

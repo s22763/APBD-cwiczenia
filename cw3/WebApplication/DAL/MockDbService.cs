@@ -20,12 +20,9 @@ namespace WebApplication.DAL
 
         public IEnumerable<Student> GetStudents(string orderBy)
         {
-            if (orderBy == "name")
-                _students.OrderBy(Student => Student.FirstName);
-            if (orderBy == "surname")
-                _students.OrderBy(Student => Student.LastName);
-            if (orderBy == "index")
-                return _students.OrderBy(Student => Student.IndexNumber);
+            if (orderBy == "name") return _students.OrderBy(Student => Student.FirstName);
+            if (orderBy == "surname") return _students.OrderBy(Student => Student.LastName);
+            if (orderBy == "index") return _students.OrderBy(Student => Student.IndexNumber);
             else return _students.OrderBy(Student => Student.IdStudent);
         }
 
@@ -35,39 +32,53 @@ namespace WebApplication.DAL
             //throw new System.NotImplementedException();
         }
 
+        public Student GetStudent(int i)
+        {
+            foreach (Student student in _students)
+            {
+                if (student.IdStudent == i) return student;
+            }
+            throw new System.NotImplementedException();
+        }
+
         public bool AddStudent(Student s)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void DeleteStudent(string i)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void DeleteStudent(Student i)
-        {
-            throw new System.NotImplementedException();
-        }
-      
-
-        public void UpdateStudent(Student s)
-        {
+            if ( s != null )
+            {
+                _students.Append(s); 
+                return true;
+            }
+            
             throw new System.NotImplementedException();
         }
 
         public void DeleteStudent(int i)
         {
+            _students = _students.Where(u => u.IdStudent != i).ToList();
             throw new System.NotImplementedException();
         }
 
-        public Student GetStudent(int i)
+        public void DeleteStudent(Student s)
         {
-            foreach (Student student in _students)
-            {
-                if (student.IndexNumber == i) return student;
-            }
-            throw new System.NotImplementedException();
+            if (s != null) {
+                _students = _students.Where(x => x != s).ToList();
+            } else throw new System.NotImplementedException();
         }
+      
+
+        public void UpdateStudent(Student s)
+        {
+            if (s != null)
+            {
+                Student s1 = _students.First(x => x.IdStudent == s.IdStudent);
+                s1.LastName = "updated";
+                _students = _students.Where(y => y.IdStudent != s.IdStudent).ToList();
+                _students.Append(s1);
+            }
+            else throw new System.NotImplementedException();
+        }
+
+        
     }
 }
+

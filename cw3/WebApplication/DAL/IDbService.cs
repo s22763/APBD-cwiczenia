@@ -13,5 +13,6 @@ namespace WebApplication.DAL
         public void DeleteStudent(Student i);
         public Student GetStudent(int i);
         public bool AddStudent(Student s);
+        //void DeleteStudent(string id);
     }
 }
