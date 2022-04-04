@@ -29,10 +29,10 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetStudent(int i)
+        public IActionResult GetStudent([FromRoute] int i)
         {
-            Student st = _dbService.GetStudent(i);
-            if (st != null) return Ok (st);
+            Student student = _dbService.GetStudent(i);
+            if (student != null) return Ok (student);
             //{
             //    return Ok("Kowalski");
             //}
@@ -43,7 +43,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateStudent(Student student)
+        public IActionResult CreateStudent([FromBody] Student student)
         {
             if (student != null) { 
                 student.IndexNumber = $"s{new Random().Next(1, 20000)}";
@@ -53,7 +53,7 @@ namespace WebApplication.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateStudent(Student student)
+        public IActionResult UpdateStudent([FromBody] Student student)
         {
             if (student != null) { 
                 _dbService.UpdateStudent(student);
